@@ -3,7 +3,13 @@ author: We had a good time :)
 title: HIP 5 Ende
 ---
 
-# HIP HIP, Hurra!
+# Über mich
+
+handle:         m0veax
+bürgerlich:     "Patrick Kilter"
+rufname:        Lutz
+
+In meinem Berufsleben mache ich Sachen mit Softwareentwicklung und Corporate-Requirements
 
 ## Food Impressions
 
