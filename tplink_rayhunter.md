@@ -133,7 +133,7 @@ Skyworks SKY77629
 
 # Bootpoint
 
-![](img/bootpoint_wired.jpg){ height=40% )
+![](img/bootpoint_wired.jpg){ height=60% }
 
 # Bootpoint
 
@@ -168,7 +168,7 @@ Skyworks SKY77629
 # rayhunter - Was ist das eigentlich?
 
 - rayhunter wurde von der Electronic Frontier Foundation im Mai 2025 veröffentlicht
-- Wurde ursprünglich für den Orbic Hotspot geschrieben
+- Wurde ursprünglich für den Orbic Hotspot geschrieben (Orbic Bild einfügen)
 - Ist in Rust 🦀 geschrieben
 
 # rayhunter - Was ist das eigentlich
@@ -178,7 +178,7 @@ Skyworks SKY77629
 # IMSI Catcher - eine kurze Exkursion
 
 - Ein IMSI Catcher ist ein Gerät mit dem unter anderen festgestellt werden kann, welche SIM Karten / Mobilfunknutzer sich in einem bestimmtem Umkreis befinden
-- Es gibt auch Möglichkeiten Gespräche auf GSM (unverschlüsselt zu downgraden)
+- Es gibt auch Möglichkeiten Gespräche auf GSM zu downgraden
 - Dafür strahlt der IMSI Catcher eine eigene Funkzelle aus und die verbindungsfreudigen Mobiltelefone melden sich an, da der Empfang gut ist
 
 # Was hat das mit unserem TP-Link zu tun?
@@ -199,7 +199,6 @@ Skyworks SKY77629
 - Ein nettes Nebenprodukt von rayhunter ist das erstellen von .pcap files für recordings
 - Hier kann sich der GSM / LTE / ect. Traffic der über den Qualcomm Chip läuft angeschaut werden
 - Voraussetzung ist, dass eine SIM Karte in das Gerät eingelegt wurde
-- An dem Tag lernte ich, das SMS unverschlüsselt sind. Habe ich vorher nicht drüber nachgedacht
 
 # rayhunter pcap
 
