@@ -56,10 +56,10 @@ $endif$
 \definecolor{color3}{RGB}{23, 150, 238}
 \setbeamertemplate{caption}[numbered]
 \setbeamertemplate{caption label separator}{: }
-\setbeamertemplate{itemize item}{\includegraphics[scale=.12]{img/hip_logo_100.png}\hspace{9.5pt}}
+%\setbeamertemplate{itemize item}{\includegraphics[scale=.12]{img/hip_logo_100.png}\hspace{9.5pt}}
 \setbeamercolor{titlelike}{fg=color1}
 \setbeamercolor{normal text}{fg=color1}
-\setbeamercolor{item}{fg=color3}
+\setbeamercolor{item}{fg=color1}
 \setbeamercolor{frametitle continuation}{fg=color2}
 \setbeamercolor{framesubtitle}{fg=color2}
 \setbeamercolor{block title}{fg=color2}
