@@ -51,6 +51,7 @@ $if(background-image1)$
 }
 $endif$
 \usepackage{pgfpages}
+\usepackage[absolute,overlay]{textpos} 
 \definecolor{color1}{RGB}{68, 68, 68}
 \definecolor{color2}{RGB}{125, 125, 121}
 \definecolor{color3}{RGB}{23, 150, 238}
@@ -415,11 +416,37 @@ $endif$
 $if(has-frontmatter)$
 \frontmatter
 $endif$
+
 $if(title)$
+
+
 $if(beamer)$
-\frame{\titlepage}
+{
+  \begin{frame}[plain]
+    $if(title-background)$
+      \setbeamertemplate{title page}{
+        \begin{textblock*}{0cm}(0cm,0cm)
+          \includegraphics[width=\paperwidth,height=\paperheight]{$title-background$}%
+        \end{textblock*}
+        \begin{textblock*}{0cm}(6.2cm,3cm)
+          \begin{minipage}[b][45mm][t]{226mm}
+            \usebeamerfont{title}{\inserttitle\par}
+            \begin{beamercolorbox}{subtitle}
+              \usebeamerfont{subtitle}{\insertsubtitle\par}
+            \end{beamercolorbox}
+            \begin{beamercolorbox}{author}
+              \usebeamerfont{author}{\insertauthor\par}
+            \end{beamercolorbox}
+          \end{minipage}
+        \end{textblock*}
+      }
+    $endif$
+    \titlepage
+  \end{frame}
+}
 $else$
 \maketitle
+
 $endif$
 $if(abstract)$
 \begin{abstract}

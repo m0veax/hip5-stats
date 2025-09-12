@@ -5,6 +5,7 @@ all:
 		--template=template.latex \
 		-fmarkdown-implicit_figures \
 		-V background-image=img/backdrop-c3e.png \
+		-V title-background=img/title.png \
 		-V logo="img/mrmcd.png" \
 		-V classoption:aspectratio=169 \
 		-V geometry:"hmargin=2.25cm, nomarginpar" \

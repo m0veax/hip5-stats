@@ -1,15 +1,15 @@
-#
-
-![](img/title.png){ height=100% }
-
+---
+author: ‎
+title: ‎
+---
 
 # Exploring TP-Link M7350 and porting rayhunter
 
 
 :::::::::::::: {.columns}
 ::: {.column width="36%"}
-handle: \
-rufname: \
+Handle: \
+Rufname: \
 :::
 ::: {.column width="42%"}
 m0veax \
@@ -27,8 +27,8 @@ Lutz \
 
 # TP-Link M7350 Projekt
 
-- mein erstes Projekt im Bereich "Hardware Hacking"
-- was ich hier zeige ist nicht nur meine Leistung, sondern gesammelte Werke aus dem Projekt
+- Mein erstes Projekt im Bereich "Hardware Hacking"
+- Was ich hier zeige ist nicht nur meine Leistung, sondern gesammelte Werke aus dem Projekt
 
 # Zielsetzung
 
@@ -41,9 +41,9 @@ Ich möchte euch folgendes erzählen:
 
 # Beginn
 
-- wir sind irgendwie™ an eine Stückzahl der Mobile-Router gekommen
+- Wir sind irgendwie™ an eine Stückzahl der Mobile-Router gekommen
 - Im Chaospott haben sich mehrere Entitäten gefunden, die sich mit dem Gerät befassen möchten
-- wir haben einen [Matrix Channel](https://matrix.to/#/!hUtDhlRLVIQJzRgCpE:zehka.net?via=yip.gay&via=matrix.org&via=chaospott.de) und ein [Github Repository](https://github.com/m0veax/tplink_M7350/tree/main) zum sammeln der Informationen eingerichtet
+- Wir haben einen [Matrix Channel](https://matrix.to/#/!hUtDhlRLVIQJzRgCpE:zehka.net?via=yip.gay&via=matrix.org&via=chaospott.de) und ein [Github Repository](https://github.com/m0veax/tplink_M7350/tree/main) zum Sammeln der Informationen eingerichtet
 
 # Hardware
 
@@ -85,13 +85,18 @@ Skyworks SKY77629
 - wir haben den dokumentierten Payload in Rust und später bash implementiert um `telnet` Zugang auf das Gerät erhalten
 - wir haben root per `telnet`
 
-`curl -s 'http://192.168.0.1/cgi-bin/qcmap_web_cgi' -b "tpweb_token=$token" -d '{"token":"'"$token"'","module":"webServer","action":1,"language":"$(busybox telnetd -l /bin/sh)"}' > /dev/null`
+```bash
+curl -s 'http://192.168.0.1/cgi-bin/qcmap_web_cgi' 
+-b "tpweb_token=$token"
+-d '{"token":"'"$token"'","module":"webServer","action":1,
+"language":"$(busybox telnetd -l /bin/sh)"}' > /dev/null
+```
 
 
 # Erste Findings
 
 - komfortable shell per `adb` möglich
-- wir dokumentieren erste findings im Filesystem und dumpen die Firmware
+- wir dokumentieren erste Findings im Filesystem und dumpen die Firmware
  - `root:C98ULvDZe7zQ2:0:0:root:/home/root:/bin/sh` -> `oelinux123`
 - aus der Firmware extrahieren wir ein Device Tree Binary
 
@@ -114,7 +119,7 @@ Skyworks SKY77629
 
 # Was können wir eigentlich mit dem Display machen?
 
-Als wir begonnen haben uns mit dem Gerät abseits der Firmware zu beschäftigen, haben wir uns als erstes mit dem Display beschäftigt.
+Als wir begonnen haben, uns mit dem Gerät abseits der Firmware zu beschäftigen, haben wir uns als erstes mit dem Display beschäftigt.
 
 # Was können wir eigentlich mit dem Display machen?
 
@@ -130,7 +135,7 @@ Als wir begonnen haben uns mit dem Gerät abseits der Firmware zu beschäftigen,
 # Was können wir eigentlich mit dem Display machen?
 
 - Können wir das UI ändern?
-- Dokumentation und Tools zum parsen und Anzeigen von UI Tiles entstehen und landen im Repository
+- Dokumentation und Tools zum Parsen und Anzeigen von UI Tiles entstehen und landen im Repository
 
 # Was können wir eigentlich mit dem Display machen?
 
@@ -172,13 +177,17 @@ TP-Link ist dank der GPL dazu verpflichtet, die Kernel Quelltexte zu veröffentl
 - Wir haben uns die Kernel Sources von der TP-Link Seite angeschaut
 - Es ist ein Android Kernel
 - Wir hatten erst Schwierigkeiten die passende Kernelversion zu finden
-- Dann konnten wir aber den ersten Kernel aus den Vendor Sourcen bauen können
+- Dann konnten wir aber den ersten Kernel aus den Vendor Sourcen bauen
 - [extra repository](https://github.com/m0veax/tplink_M7350-kernel) erstellt und im Hauptrepository verlinkt
 
 # TP-Link OSS
 
-- Mittlerweile haben wir einen Plan9 `cpu` fähigen Vendor Kernel bauen können
+- Mittlerweile haben wir einen [`cpud`](https://github.com/u-root/cpu) fähigen Vendor Kernel bauen können
+    - Nur mit der Vendor Toolchain
+    - Mit Modifikationen auch Farbe auf dem Display
 - Es gibt einen ersten rudimentär nutzbaren Mainline Linux Kernel
+    - Display mit Farbe funktioniert
+    - Kein `/dev/diag` 
 
 # Bootpoint
 
@@ -202,17 +211,17 @@ TP-Link ist dank der GPL dazu verpflichtet, die Kernel Quelltexte zu veröffentl
 # Bootpoint
 
 - [qc_boot](https://github.com/platform-system-interface/qc_boot) ist entstanden
-- Projekt um Qualcomm SoCs per USB im [EDL Mode](https://en.wikipedia.org/wiki/Qualcomm_EDL_mode) zu booten
+- Projekt um mit Qualcomm SoCs per USB im [EDL Mode](https://en.wikipedia.org/wiki/Qualcomm_EDL_mode) zu kommunizieren
 
 # fastboot
 
-- Das `fastboot` command von TP-Link wurde stammt aus dem [LK](https://github.com/littlekernel/lk) (Little Kernel) Projekt
+- Das `fastboot` von Qualcomm ist im [LK](https://github.com/littlekernel/lk) (Little Kernel) implementiert worden
 
 # AT Commands
 
 - Über AT Commands können Band Einstellungen und die IMEI im Modem geändert werden
-- für die Ausführung ist das Programm `diagcmd` aus dem 4pda Forum notwendig
-- wir haben die Sourcen für das Programm auf einem Fileserver gefunden
+- für die Ausführung ist das Programm `diagcmd` aus dem 4pda Forum nutzbar
+    - wir haben die Sourcen für das Programm auf einem Fileserver gefunden
 
 
 
@@ -231,8 +240,8 @@ TP-Link ist dank der GPL dazu verpflichtet, die Kernel Quelltexte zu veröffentl
 
 # IMSI Catcher - eine kurze Exkursion
 
-- Ein IMSI Catcher ist ein Gerät mit dem unter anderen festgestellt werden kann, welche SIM Karten / Mobilfunkgeräte sich in einer Funkzelle befinden
-- Es gibt auch Möglichkeiten Gespräche auf GSM zu downgraden
+- Ein IMSI Catcher ist ein Gerät, mit dem unter anderen festgestellt werden kann, welche SIM Karten / Mobilfunkgeräte sich in einer Funkzelle befinden
+- Es gibt auch Möglichkeiten, Gespräche auf GSM zu downgraden
 - Dafür strahlt der IMSI Catcher eine eigene Funkzelle aus und die verbindungsfreudigen Mobiltelefone melden sich an
 
 
@@ -242,15 +251,11 @@ TP-Link ist dank der GPL dazu verpflichtet, die Kernel Quelltexte zu veröffentl
 
 # Was hat das mit unserem TP-Link zu tun?
 
-- Im Chaospott wurde über `rayhunter` geredet und darüber, dass der Router der dafür verwendet wird unserem TP-Link M7350 sehr ähnlich sieht
-- Wir haben uns darauf hin `rayhunter` angeschaut und in den Issues des Repositories gesehen, dass Hardware für den europäischen Markt gesucht wird
-- In dem Issue wird auf den TP-Link M7350 hingewiesen und wir haben uns mit dem Hinweis gemeldet, dass wir das Gerät kennen und versuchen die Software zu portieren
-
-# Was hat das mit unserem TP-Link zu tun?
-
-- Im Mai 2025 wurde Hardware für den europäischen Markt gesucht
+- Im Chaospott wurde über `rayhunter` geredet und darüber, dass der Router, der dafür verwendet wird, unserem TP-Link M7350 sehr ähnlich sieht
+- Wir haben uns daraufhin `rayhunter` angeschaut und in den Issues des Repositories gesehen, dass Hardware für den europäischen Markt gesucht wird
+- In dem Issue von Mai 2025 wird auf den TP-Link M7350 hingewiesen und wir haben uns mit dem Hinweis gemeldet, dass wir das Gerät kennen und versuchen, die Software zu portieren
 - relativ schnell hat sich herausgestellt, dass unser TP-Link dem Orbic sehr ähnlich ist
- - Root Exploit vorhanden, Zugriff auf das Qualcomm DIAG Interface ist möglich
+    - Root Exploit vorhanden, Zugriff auf das Qualcomm DIAG Interface ist möglich
 
 # Was hat das mit unserem TP-Link zu tun?
 
@@ -264,23 +269,23 @@ TP-Link ist dank der GPL dazu verpflichtet, die Kernel Quelltexte zu veröffentl
 
 # rayhunter - wie lief die Portierung?
 
-- da beide Geräte eine arm(v7) CPU haben, konnte das Binary einfach kopiert werden
-- Im Gegensatz zum Orbic, hat der TP-Link nicht genug Speicherplatz
-- Nutzung einer SD Karte und Anpassungen in den Startup Scripten haben Abhilfe geschaffen
+- da beide Geräte eine Arm v7 CPU haben, konnte das Binary einfach kopiert werden
+- Im Gegensatz zum Orbic hat der TP-Link nicht genug Speicherplatz
+    - Nutzung einer SD-Karte und Anpassungen in den Startup Scripten haben Abhilfe geschaffen
 
 # rayhunter - wie lief die Portierung?
 
 In einem [Shellscript](https://github.com/m0veax/rayhunter-tplink-M7350/blob/installer_v3/dist_tplink_v3/install-common.sh) wurde automatisiert:
 
 - Das Ausführen des Root Exploits
-- Einloggen auf das Gerät per Telnet und aktivieren von `adb` per `expect`
-- Kopieren von benötigten Dateien per adb push
-- Das erstmalige Starten von rayhunter
+- Einloggen auf das Gerät per Telnet und Aktivieren von `adb` per `expect`
+- Kopieren von benötigten Dateien per `adb push`
+- Das erstmalige Starten von `rayhunter`
 - Ein Test auf die Erreichbarkeit des Webinterfaces
 
 # rayhunter - wie lief die Portierung?
 
-- Da das Shellscript nur für Linux Systeme mit bestimmten Dependencies gepasst hat, wurde der Prozess später in einen `rayhunter` Rust Installer übernommen
+- Da das Shellscript nur für Linux-Systeme mit bestimmten Dependencies gepasst hat, wurde der Prozess später in einen `rayhunter` Rust Installer übernommen
 
 # rayhunter - wie lief die Portierung?
 
@@ -293,7 +298,7 @@ In einem [Shellscript](https://github.com/m0veax/rayhunter-tplink-M7350/blob/ins
 
 # rayhunter - Was ist das eigentlich?
 
-- `rayhunter` ist ein Tool um IMSI Catcher anhand von heuristischen Merkmalen zu detektieren und den Nutzer darüber zu informieren
+- `rayhunter` ist ein Tool, um IMSI Catcher anhand von heuristischen Merkmalen zu detektieren und den Nutzer darüber zu informieren
 
 # rayhunter - heuristische Merkmale
 
@@ -313,9 +318,9 @@ Unter anderem sucht `rayhunter` nach Indikatoren für folgende [IMSI Catcher Akt
 
 # rayhunter pcap
 
-- Ein nettes Nebenprodukt von `rayhunter` ist das erstellen von .pcap files für recordings
-- Hier kann sich der GSM / LTE / ect. Traffic der über den Qualcomm Chip läuft angeschaut werden
-- Voraussetzung ist, dass eine aktivierte SIM Karte in das Gerät eingelegt wurde
+- Ein nettes Nebenprodukt von `rayhunter` ist das erstellen von .pcap Files für Recordings
+- Hier kann sich der GSM / LTE / etc. Traffic, der über den Qualcomm Chip läuft, angeschaut werden
+- Voraussetzung ist, dass eine aktivierte SIM-Karte in das Gerät eingelegt wurde
 
 # rayhunter pcap
 
@@ -324,24 +329,24 @@ Unter anderem sucht `rayhunter` nach Indikatoren für folgende [IMSI Catcher Akt
 # Fazit
 
 - Sowohl im Kontext vom TP-Link M7350 als auch bei rayhunter gibt es noch viel zu tun und zu entdecken
-- Neben der Erkennung von IMSI Catchern, kann mit rayhunter und dem TP-Link der eigene Mobilfunktraffic sichtbar gemacht werden
+- Neben der Erkennung von IMSI Catchern kann mit rayhunter und dem TP-Link der eigene Mobilfunktraffic sichtbar gemacht werden
 - Wenn ich über meine Projekte rede, machen auf einmal Menschen mit :)
-- Ich habe total nette Menschen kennengelernt und eine Menge dabei gelernt
+- Ich habe nette Menschen kennengelernt und eine Menge dabei gelernt
 
 # Fazit
 
-- Wenn ihr `rayhunter` ausprobieren wollt, sprecht mich gerne an, ich bin noch bis zum Ende der Veranstaltung vor Ort
+- Wenn ihr `rayhunter` ausprobieren wollt, sprecht mich gerne an. Ich bin noch bis zum Ende der Veranstaltung vor Ort
 - Mehr Informationen zu `rayhunter` und der genauen Funktionsweise gibt es in den Slides des `rayhunter` [DEFCON Talks](https://media.defcon.org/DEF%20CON%2033/DEF%20CON%2033%20presentations/Cooper%20Quintin%20-Recording%20PCAPs%20from%20Stingrays%20With%20a%20%2420%20Hotspot.pdf)
 
 # Credits 
 
-- thanks to @untitaker for picking up the "installer" development after I felt into the next rabbithole <3
+- thanks to @untitaker for picking up the "installer" development after I fell into the next rabbit hole <3
 - thanks to @mutant who mentioned `rayhunter` to me the first time <3
-- thanks to @matej\_kovacic for summarizing IMSI Catchers <3
-- thanks to the EFF for inventing rayhunter <3 I learned a lot using it :)
-- thanks to CyRevolt and the other Chaospott folks <3
-- thanks to DuSchu for finding the initial 4pda thread, thats how the journey started <3
-- thanks to anyone contributing to the Matrix channel and the project repository <3
+- thanks to @matej\_kovacic for summarizing IMSI catchers <3
+- thanks to @EFF for inventing rayhunter <3 I learned a lot using it :)
+- thanks to @CyRevolt and the other Chaospott folks <3
+- thanks to @DuSchu for finding the initial 4pda thread, that's how the journey started <3
+- thanks to @anyone contributing to the Matrix channel and the project repository <3
 
 # Links
 
